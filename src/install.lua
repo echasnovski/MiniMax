@@ -1,0 +1,5 @@
+-- Steps:
+-- - Determine the correct MiniMax version (if any).
+-- - Safely (without deleting anything) copy to the `stdpath('config')`. All
+--   conflicting paths ('init.lua' and all 'plugin/*') move to some backup
+--   directory.
