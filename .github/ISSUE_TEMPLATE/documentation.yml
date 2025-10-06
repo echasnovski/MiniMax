@@ -1,0 +1,11 @@
+name: Documentation issue
+description: Report a documentation issue
+labels: [documentation]
+body:
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: "Problem description"
+      description: "Link to the problematic documentation and provide suggestion of you think it can be improved."
+    validations:
+      required: true
