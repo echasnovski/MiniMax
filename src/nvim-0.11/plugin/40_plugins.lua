@@ -15,12 +15,19 @@ now_if_args(function()
 
   -- Ensure installed
   local ensure_installed = { 'lua', 'vimdoc' }
-  local isnt_installed = function(lang) return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0 end
+  local isnt_installed = function(lang)
+    return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0
+  end
   local to_install = vim.tbl_filter(isnt_installed, ensure_installed)
   if #to_install > 0 then require('nvim-treesitter').install(to_install) end
 
   -- Ensure enabled
-  local filetypes = vim.iter(ensure_installed):map(vim.treesitter.language.get_filetypes):flatten():totable()
+  local filetypes = {}
+  for _, lang in ipairs(ensure_installed) do
+    for _, ft in ipairs(vim.treesitter.language.get_filetypes(lang)) do
+      table.insert(filetypes, ft)
+    end
+  end
   local ts_start = function(ev) vim.treesitter.start(ev.buf) end
   _G.Config.new_autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
 end)
@@ -40,6 +47,10 @@ later(function()
     -- Map of filetype to formatters
     formatters_by_ft = { lua = { 'stylua' } },
   })
+
+  -- See also:
+  -- - `:h conform-options`
+  -- - `:h conform-formatters`
 end)
 
 -- Snippet collection =========================================================

@@ -1,4 +1,7 @@
 -- stylua: ignore start
+-- General mappings ===========================================================
+-- Other mappings are created in 'mini.basics'.
+
 -- Leader mappings ============================================================
 -- Create global table with information about clue groups in certain modes
 -- Structure of tables is taken to be compatible with 'mini.clue'.
@@ -10,6 +13,7 @@ _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>l', desc = '+Language' },
   { mode = 'n', keys = '<Leader>m', desc = '+Map' },
   { mode = 'n', keys = '<Leader>o', desc = '+Other' },
+  { mode = 'n', keys = '<Leader>t', desc = '+Terminal' },
   { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
 
   { mode = 'x', keys = '<Leader>g', desc = '+Git' },
@@ -29,10 +33,14 @@ local xmap_leader = function(suffix, rhs, desc, opts)
 end
 
 -- b is for 'buffer'
+local new_scratch_buffer = function()
+  vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
+end
+
 nmap_leader('ba', '<Cmd>b#<CR>',                                 'Alternate')
 nmap_leader('bd', '<Cmd>lua MiniBufremove.delete()<CR>',         'Delete')
 nmap_leader('bD', '<Cmd>lua MiniBufremove.delete(0, true)<CR>',  'Delete!')
--- nmap_leader('bs', '<Cmd>lua Config.new_scratch_buffer()<CR>',    'Scratch')
+nmap_leader('bs', new_scratch_buffer,                            'Scratch')
 nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>',        'Wipeout')
 nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 
@@ -58,31 +66,32 @@ nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', explore_quickfix,                     'Quickfix')
 
 -- f is for 'fuzzy find'
-nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>',                 '"/" history')
-nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>',                 '":" history')
-nmap_leader('fa', '<Cmd>Pick git_hunks scope="staged"<CR>',          'Added hunks (all)')
-nmap_leader('fA', '<Cmd>Pick git_hunks path="%" scope="staged"<CR>', 'Added hunks (current)')
-nmap_leader('fb', '<Cmd>Pick buffers<CR>',                           'Buffers')
-nmap_leader('fc', '<Cmd>Pick git_commits<CR>',                       'Commits (all)')
-nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>',              'Commits (current)')
-nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>',            'Diagnostic workspace')
-nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>',        'Diagnostic buffer')
-nmap_leader('ff', '<Cmd>Pick files<CR>',                             'Files')
-nmap_leader('fg', '<Cmd>Pick grep_live<CR>',                         'Grep live')
-nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>',            'Grep current word')
-nmap_leader('fh', '<Cmd>Pick help<CR>',                              'Help tags')
-nmap_leader('fH', '<Cmd>Pick hl_groups<CR>',                         'Highlight groups')
-nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>',             'Lines (all)')
-nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>',         'Lines (current)')
-nmap_leader('fm', '<Cmd>Pick git_hunks<CR>',                         'Modified hunks (all)')
-nmap_leader('fM', '<Cmd>Pick git_hunks path="%"<CR>',                'Modified hunks (current)')
-nmap_leader('fr', '<Cmd>Pick resume<CR>',                            'Resume')
-nmap_leader('fp', '<Cmd>Pick projects<CR>',                          'Projects')
-nmap_leader('fR', '<Cmd>Pick lsp scope="references"<CR>',            'References (LSP)')
-nmap_leader('fs', '<Cmd>Pick lsp scope="workspace_symbol"<CR>',      'Symbols workspace (LSP)')
-nmap_leader('fS', '<Cmd>Pick lsp scope="document_symbol"<CR>',       'Symbols buffer (LSP)')
-nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',                'Visit paths (all)')
-nmap_leader('fV', '<Cmd>Pick visit_paths<CR>',                       'Visit paths (cwd)')
+local pick_added_hunks_buf = '<Cmd>Pick git_hunks path="%" scope="staged"<CR>'
+nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>',            '"/" history')
+nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>',            '":" history')
+nmap_leader('fa', '<Cmd>Pick git_hunks scope="staged"<CR>',     'Added hunks (all)')
+nmap_leader('fA', pick_added_hunks_buf,                         'Added hunks (buf)')
+nmap_leader('fb', '<Cmd>Pick buffers<CR>',                      'Buffers')
+nmap_leader('fc', '<Cmd>Pick git_commits<CR>',                  'Commits (all)')
+nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>',         'Commits (buf)')
+nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>',       'Diagnostic workspace')
+nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>',   'Diagnostic buffer')
+nmap_leader('ff', '<Cmd>Pick files<CR>',                        'Files')
+nmap_leader('fg', '<Cmd>Pick grep_live<CR>',                    'Grep live')
+nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>',       'Grep current word')
+nmap_leader('fh', '<Cmd>Pick help<CR>',                         'Help tags')
+nmap_leader('fH', '<Cmd>Pick hl_groups<CR>',                    'Highlight groups')
+nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>',        'Lines (all)')
+nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>',    'Lines (buf)')
+nmap_leader('fm', '<Cmd>Pick git_hunks<CR>',                    'Modified hunks (all)')
+nmap_leader('fM', '<Cmd>Pick git_hunks path="%"<CR>',           'Modified hunks (buf)')
+nmap_leader('fr', '<Cmd>Pick resume<CR>',                       'Resume')
+nmap_leader('fp', '<Cmd>Pick projects<CR>',                     'Projects')
+nmap_leader('fR', '<Cmd>Pick lsp scope="references"<CR>',       'References (LSP)')
+nmap_leader('fs', '<Cmd>Pick lsp scope="workspace_symbol"<CR>', 'Symbols workspace')
+nmap_leader('fS', '<Cmd>Pick lsp scope="document_symbol"<CR>',  'Symbols document')
+nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',           'Visit paths (all)')
+nmap_leader('fV', '<Cmd>Pick visit_paths<CR>',                  'Visit paths (cwd)')
 
 -- g is for Git
 local git_log_cmd = [[Git log --pretty=format:\%h\ \%as\ │\ \%s --topo-order]]
@@ -92,7 +101,6 @@ nmap_leader('gc', '<Cmd>Git commit<CR>',                          'Commit')
 nmap_leader('gC', '<Cmd>Git commit --amend<CR>',                  'Commit amend')
 nmap_leader('gd', '<Cmd>Git diff<CR>',                            'Diff')
 nmap_leader('gD', '<Cmd>Git diff -- %<CR>',                       'Diff buffer')
--- nmap_leader('gg', '<Cmd>lua Config.open_lazygit()<CR>',           'Git tab')
 nmap_leader('gl', '<Cmd>' .. git_log_cmd .. '<CR>',               'Log')
 nmap_leader('gL', '<Cmd>' .. git_log_cmd .. ' --follow -- %<CR>', 'Log buffer')
 nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>',       'Toggle overlay')
@@ -126,6 +134,10 @@ nmap_leader('ol', '<Cmd>normal gxiagxina<CR>',             'Move arg right')
 nmap_leader('or', '<Cmd>lua MiniMisc.resize_window()<CR>', 'Resize to default width')
 nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>',    'Trim trailspace')
 nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',          'Zoom toggle')
+
+-- t is for 'terminal'
+nmap_leader('tT', '<Cmd>horizontal term<CR>', 'Terminal (horizontal)')
+nmap_leader('tt', '<Cmd>vertical term<CR>',   'Terminal (vertical)')
 
 -- v is for 'visits'
 nmap_leader('vv', '<Cmd>lua MiniVisits.add_label("core")<CR>',    'Add "core" label')

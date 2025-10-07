@@ -75,6 +75,8 @@ vim.o.completeopt = 'menuone,noselect,fuzzy,nosort' -- Use custom behavior
 local f = function() vim.cmd('setlocal formatoptions-=c formatoptions-=o') end
 _G.Config.new_autocmd('FileType', nil, f, "Proper 'formatoptions'")
 
+-- There are other autocmmands created in 'mini.basics'
+
 -- Diagnostics ================================================================
 local diagnostic_opts = {
   -- Show signs on top of any other sign, but only for warnings and errors

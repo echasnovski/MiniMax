@@ -18,12 +18,15 @@ now(function()
 end)
 
 now(function()
+  local ext3_blocklist = { scm = true, txt = true, yml = true }
+  local ext4_blocklist = { json = true, yaml = true }
   require('mini.icons').setup({
     use_file_extension = function(ext, _)
-      local suf3, suf4 = ext:sub(-3), ext:sub(-4)
-      return suf3 ~= 'scm' and suf3 ~= 'txt' and suf3 ~= 'yml' and suf4 ~= 'json' and suf4 ~= 'yaml'
+      -- Do not prefer extension-based icon for some extensions
+      return not (ext3_blocklist[ext:sub(-3)] or ext4_blocklist[ext:sub(-4)])
     end,
   })
+
   later(MiniIcons.mock_nvim_web_devicons)
   later(MiniIcons.tweak_lsp_kind)
 end)
@@ -113,7 +116,9 @@ later(function()
   })
 
   -- Set up LSP part of completion
-  local on_attach = function(args) vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp' end
+  local on_attach = function(ev)
+    vim.bo[ev.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+  end
   _G.Config.new_autocmd('LspAttach', nil, on_attach, "Set 'omnifunc'")
 
   vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
@@ -122,14 +127,16 @@ end)
 later(function() require('mini.diff').setup() end)
 
 later(function()
+  -- Enable directory/file preview
   require('mini.files').setup({ windows = { preview = true } })
 
-  local create_bookmarks = function()
+  local add_marks = function()
     MiniFiles.set_bookmark('c', vim.fn.stdpath('config'), { desc = 'Config' })
-    MiniFiles.set_bookmark('p', vim.fn.stdpath('data') .. '/site/pack/deps/opt', { desc = 'Plugins' })
+    local minideps_plugins = vim.fn.stdpath('data') .. '/site/pack/deps/opt'
+    MiniFiles.set_bookmark('p', minideps_plugins, { desc = 'Plugins' })
     MiniFiles.set_bookmark('w', vim.fn.getcwd, { desc = 'Working directory' })
   end
-  _G.Config.new_autocmd('User', 'MiniFilesExplorerOpen', create_bookmarks, 'Create bookmarks')
+  _G.Config.new_autocmd('User', 'MiniFilesExplorerOpen', add_marks, 'Create bookmarks')
 end)
 
 later(function() require('mini.git').setup() end)
@@ -178,8 +185,6 @@ later(function() require('mini.pairs').setup() end)
 later(function() require('mini.pick').setup() end)
 
 later(function()
-  local snippets, config_path = require('mini.snippets'), vim.fn.stdpath('config')
-
   local latex_patterns = { 'latex/**/*.json', '**/latex.json' }
   local lang_patterns = {
     tex = latex_patterns,
@@ -188,6 +193,7 @@ later(function()
     markdown_inline = { 'markdown.json' },
   }
 
+  local snippets, config_path = require('mini.snippets'), vim.fn.stdpath('config')
   snippets.setup({
     snippets = {
       snippets.gen_loader.from_file(config_path .. '/snippets/global.json'),
