@@ -1,4 +1,4 @@
-column_width = 90
+column_width = 85
 line_endings = "Unix"
 indent_type = "Spaces"
 indent_width = 2
