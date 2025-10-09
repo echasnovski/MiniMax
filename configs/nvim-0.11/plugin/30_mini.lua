@@ -51,10 +51,13 @@ later(function()
       B = MiniExtra.gen_ai_spec.buffer(),
       F = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
     },
+    search_method = 'cover',
   })
 end)
 
 later(function() require('mini.align').setup() end)
+
+-- later(function() require('mini.animate').setup() end)
 
 later(function() require('mini.bracketed').setup() end)
 
@@ -76,7 +79,7 @@ later(function()
     triggers = {
       { mode = 'n', keys = '<Leader>' }, -- Leader triggers
       { mode = 'x', keys = '<Leader>' },
-      { mode = 'n', keys = [[\]] },      -- mini.basics
+      { mode = 'n', keys = '\\' },       -- mini.basics
       { mode = 'n', keys = '[' },        -- mini.bracketed
       { mode = 'n', keys = ']' },
       { mode = 'x', keys = '[' },
@@ -124,6 +127,8 @@ later(function()
   vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
 end)
 
+-- later(function() require('mini.cursorword').setup() end)
+
 later(function() require('mini.diff').setup() end)
 
 later(function()
@@ -136,7 +141,7 @@ later(function()
     MiniFiles.set_bookmark('p', minideps_plugins, { desc = 'Plugins' })
     MiniFiles.set_bookmark('w', vim.fn.getcwd, { desc = 'Working directory' })
   end
-  _G.Config.new_autocmd('User', 'MiniFilesExplorerOpen', add_marks, 'Create bookmarks')
+  _G.Config.new_autocmd('User', 'MiniFilesExplorerOpen', add_marks, 'Add bookmarks')
 end)
 
 later(function() require('mini.git').setup() end)
@@ -171,8 +176,29 @@ later(function()
 end)
 
 later(function()
+  -- NOTE: Might be slow on very big buffers (10000+ lines)
+  local map = require('mini.map')
+  map.setup({
+    symbols = { encode = map.gen_encode_symbols.dot('4x2') },
+    integrations = {
+      map.gen_integration.builtin_search(),
+      map.gen_integration.diff(),
+      map.gen_integration.diagnostic(),
+    },
+  })
+
+  for _, key in ipairs({ 'n', 'N', '*', '#' }) do
+    local rhs = key
+      .. 'zv'
+      .. '<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>'
+    vim.keymap.set('n', key, rhs)
+  end
+end)
+
+later(function()
   require('mini.misc').setup()
   MiniMisc.setup_auto_root()
+  MiniMisc.setup_restore_cursor()
   MiniMisc.setup_termbg_sync()
 end)
 
@@ -180,7 +206,7 @@ later(function() require('mini.move').setup() end)
 
 later(function() require('mini.operators').setup() end)
 
-later(function() require('mini.pairs').setup() end)
+later(function() require('mini.pairs').setup({ modes = { command = true } }) end)
 
 later(function() require('mini.pick').setup() end)
 
@@ -193,7 +219,8 @@ later(function()
     markdown_inline = { 'markdown.json' },
   }
 
-  local snippets, config_path = require('mini.snippets'), vim.fn.stdpath('config')
+  local snippets = require('mini.snippets')
+  local config_path = vim.fn.stdpath('config')
   snippets.setup({
     snippets = {
       snippets.gen_loader.from_file(config_path .. '/snippets/global.json'),
@@ -206,20 +233,14 @@ end)
 
 later(function() require('mini.splitjoin').setup() end)
 
-later(function()
-  require('mini.surround').setup()
-  -- Disable `s` shortcut (use `cl` instead) for safer usage of 'mini.surround'
-  vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
-end)
+later(function() require('mini.surround').setup() end)
 
 later(function() require('mini.trailspace').setup() end)
 
 later(function() require('mini.visits').setup() end)
 
--- Not enabled here, but can be useful:
--- - 'mini.animate' -  too invasive.
--- - 'mini.cursorword' - too invasive.
--- - 'mini.colors' -  don't really need it on daily basis.
+-- Not mentioned here, but can be useful:
+-- - 'mini.colors' - don't really need it on daily basis.
 -- - 'mini.doc' - needed only for plugin developers.
--- - 'mini.map' - requires complicated setup to be useful.
+-- - 'mini.fuzzy' - don't really need it on daily basis.
 -- - 'mini.test' - needed only for plugin developers.

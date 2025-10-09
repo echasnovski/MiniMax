@@ -10,7 +10,7 @@ if version == nil then
 end
 
 local script_dir = vim.fs.dirname((_G.arg or {})[0]) or vim.fn.getcwd()
-local version_dir = script_dir .. '/src/' .. version
+local version_dir = script_dir .. '/configs/' .. version
 
 -- Ensure proper config directory
 local config_dir = vim.fn.fnamemodify(vim.fn.stdpath('config'), ':p'):gsub('[\\/]+$', '')
@@ -70,7 +70,9 @@ safely_copy = function(rel_path, skip_if_present)
 end
 
 safely_copy('init.lua')
-safely_copy('plugin') -- Backs up whole 'plugin/' directory to avoid config conflicts
-safely_copy('snippets/global.json', true) -- Prefer user's snippet file
+safely_copy('plugin') -- Back up whole 'plugin/' directory to avoid config conflicts
+safely_copy('after/ftplugin/text.lua', true) -- Prefer user's existing files
+safely_copy('after/snippets/lua.json', true)
+safely_copy('snippets/global.json', true)
 
 print('Created MiniMax config at ' .. config_dir)

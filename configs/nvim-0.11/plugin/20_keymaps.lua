@@ -58,6 +58,7 @@ end
 
 nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',      'Directory')
 nmap_leader('ef', explore_at_file,                      'File directory')
+nmap_leader('ei', '<Cmd>edit $MYVIMRC<CR>',             'init.lua')
 nmap_leader('ek', edit_config_file('20_keymaps.lua'),   'Keymaps config')
 nmap_leader('em', edit_config_file('30_mini.lua'),      'MINI config')
 nmap_leader('eo', edit_config_file('10_options.lua'),   'Options config')
@@ -106,7 +107,7 @@ nmap_leader('gL', '<Cmd>' .. git_log_cmd .. ' --follow -- %<CR>', 'Log buffer')
 nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>',       'Toggle overlay')
 nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',        'Show at cursor')
 
-xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',  'Show at selection')
+xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')
 
 -- l is for Language
 local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
