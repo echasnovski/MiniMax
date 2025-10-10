@@ -13,7 +13,8 @@ local script_dir = vim.fs.dirname((_G.arg or {})[0]) or vim.fn.getcwd()
 local version_dir = script_dir .. '/configs/' .. version
 
 -- Ensure proper config directory
-local config_dir = vim.fn.fnamemodify(vim.fn.stdpath('config'), ':p'):gsub('[\\/]+$', '')
+local config_dir =
+  vim.fn.fnamemodify(vim.fn.stdpath('config'), ':p'):gsub('[\\/]+$', '')
 vim.fn.mkdir(config_dir, 'p')
 
 local backup_dir = config_dir .. '/MiniMax-backup'
@@ -75,4 +76,11 @@ safely_copy('after/ftplugin/text.lua', true) -- Prefer user's existing files
 safely_copy('after/snippets/lua.json', true)
 safely_copy('snippets/global.json', true)
 
-print('Created MiniMax config at ' .. config_dir)
+-- Possibly Git init. It is a good practice and helps with root detection.
+if vim.loop.fs_stat(config_dir .. '/.git') == nil then
+  vim.fn.system({ 'git', '-C', config_dir, 'init' })
+  vim.fn.system({ 'git', '-C', config_dir, 'add', '*' })
+  vim.fn.system({ 'git', '-C', config_dir, 'commit', '-m', 'feat: set up MiniMax' })
+end
+
+print('Set up MiniMax config at ' .. config_dir)

@@ -1,9 +1,9 @@
--- ┌─────────────────────────────┐
--- │Options and built-in behavior│
--- └─────────────────────────────┘
+-- ┌──────────────────────────┐
+-- │ Built-in Neovim behavior │
+-- └──────────────────────────┘
 --
--- This file sets Neovim's options and built-in behavior. The goal is to improve
--- overall usability in a way that works best with MINI.
+-- This file defines Neovim's built-in behavior. The goal is to improve overall
+-- usability in a way that works best with MINI.
 --
 -- Here `vim.o.xxx = value` sets default value of option `xxx` to `value`.
 -- See `:h 'xxx'` (replace `xxx` with actual option name).
@@ -13,7 +13,7 @@
 
 --stylua: ignore start
 -- General ====================================================================
-vim.g.mapleader = ' ' -- Use `<Space>` as a leader key
+vim.g.mapleader = ' ' -- Use `<Space>` as <Leader> key
 
 vim.o.mouse       = 'a'            -- Enable mouse
 vim.o.mousescroll = 'ver:25,hor:6' -- Customize mouse scroll
@@ -83,14 +83,19 @@ vim.o.complete    = '.,w,b,kspell'                  -- Use less sources
 vim.o.completeopt = 'menuone,noselect,fuzzy,nosort' -- Use custom behavior
 
 -- Autocommands ===============================================================
+
 -- Don't auto-wrap comments and don't insert comment leader after hitting 'o'.
 -- Do on `FileType` to always override these changes from filetype plugins.
 local f = function() vim.cmd('setlocal formatoptions-=c formatoptions-=o') end
 _G.Config.new_autocmd('FileType', nil, f, "Proper 'formatoptions'")
 
--- There are other autocmmands created in 'mini.basics'
+-- There are other autocmmands created by 'mini.basics'. See 'plugin/30_mini.lua'.
 
 -- Diagnostics ================================================================
+
+-- Neovim has built-in support for showing diagnostic messages. This configures
+-- more conservative display while still being useful.
+-- See `:h vim.diagnostic` and `:h vim.diagnostic.config()`.
 local diagnostic_opts = {
   -- Show signs on top of any other sign, but only for warnings and errors
   signs = { priority = 9999, severity = { min = 'WARN', max = 'ERROR' } },

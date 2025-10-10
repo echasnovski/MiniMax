@@ -1,12 +1,9 @@
+-- The `require('mini.xxx').setup()` is a common convention in 'mini.nvim' to
+-- enable a module. See `:h mini.nvim-general-principles` for more principles.
 local now, later = MiniDeps.now, MiniDeps.later
 
 -- Step one ===================================================================
-now(function()
-  vim.cmd('colorscheme miniwinter')
-
-  -- Adjust as `msgsep` will be not blank
-  vim.cmd('hi MsgSeparator guibg=NONE')
-end)
+now(function() vim.cmd('colorscheme miniwinter') end)
 
 now(function()
   require('mini.basics').setup({
@@ -100,6 +97,9 @@ later(function()
       { mode = 'x', keys = 'z' },
     },
   })
+
+  -- Ensure 'mini.clue' works on the initial 'mini.starter' buffer
+  if vim.bo.filetype == 'ministarter' then MiniClue.ensure_buf_triggers() end
 end)
 
 later(function() require('mini.comment').setup() end)
@@ -204,7 +204,18 @@ end)
 
 later(function() require('mini.move').setup() end)
 
-later(function() require('mini.operators').setup() end)
+later(function()
+  require('mini.operators').setup()
+
+  -- Create mappings for swapping adjacent arguments. Notes:
+  -- - Relies on `a` argument textobject from 'mini.ai'.
+  -- - It is not 100% reliable, but mostly works.
+  -- - It overrides `:h (` and `:h )`.
+  -- Explanation: `gx`-`ia`-`gx`-`ila` <=> exchange current and last argument
+  -- Usage: when on `a` in `(aa, bb)` press `)` followed by `(`.
+  vim.keymap.set('n', '(', '<Cmd>normal gxiagxila<CR>', { desc = 'Swap arg left' })
+  vim.keymap.set('n', ')', '<Cmd>normal gxiagxina<CR>', { desc = 'Swap arg right' })
+end)
 
 later(function() require('mini.pairs').setup({ modes = { command = true } }) end)
 

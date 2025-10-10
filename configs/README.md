@@ -46,18 +46,15 @@ For demonstration purposes, it contains examples for two common ways to use 'aft
 
     For example, '\*.txt' files have `text` filetype, so 'ftplugin/text.lua' is sourced when '\*.txt' file is opened. It defines behavior that should exist only in `text` files.
 
+- `lsp/` (on Neovim>=0.11) - files that configure LSP servers. These are used by Neovim's built-in [`:h vim.lsp.config()`](https://neovim.io/doc/user/helptag.html?tag=vim.lsp.config()) and [`:h vim.lsp.enable()`](https://neovim.io/doc/user/helptag.html?tag=vim.lsp.enable()). See also [`:h lsp-quickstart`](https://neovim.io/doc/user/helptag.html?tag=lsp-quickstart) for more details.
+
+    For example, the 'lsp/lua_ls.lua' file defines part of configuration that will be used during `vim.lsp.enable({ 'lua_ls' })` (i.e. with the same name).
+
 - `snippets/` - files containing snippet definition per language. Used by ['mini.snippets'](https://nvim-mini.org/mini.nvim/doc/mini-snippets.html). As they are located in 'after/', they override any snippets provided by plugins (like 'rafamadriz/friendly-snippets').
 
     For example, based on 'snippets/lua.json', typing `l` + `<C-j>` in Insert mode inside Lua files will always insert `local $1 = $0` snippet. No matter if any other snippet provider contains this or conflicting snippet.
 
 Other useful directories are:
 
-- `lsp/` (on Neovim>=0.11) to configure LSP servers.
-- `queries/` to define custom tree-sitter queries.
-
-### How to make it your own
-
-TODO:
-- Modify existing or add new 'plugin/' files.
-- Add granular customizations.
-- Usually modifying 'init.lua' is not needed. Prefer adjusting via 'plugin/'.
+- `queries/` - custom [tree-sitter queries](https://neovim.io/doc/user/helptag.html?tag=treesitter-query).
+- `keymap/` - custom ['keymap'](https://neovim.io/doc/user/helptag.html?tag=mbyte-keymap)

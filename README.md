@@ -79,7 +79,7 @@ Basic level of understanding how to:
 
     - Manually via GitHub UI.
 
-- Run 'setup.lua' script:
+- Run 'setup.lua' script (copies config files and possibly initiates Git repository):
 
     - For a full-time use. Sets up regular user's config directory. On Linux this sets up '~/.config/nvim'.
 
