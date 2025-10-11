@@ -11,7 +11,10 @@
 -- Option values can be customized on per buffer or window basis.
 -- See 'after/ftplugin/' for common example.
 
---stylua: ignore start
+-- stylua: ignore start
+-- The next part (until `-- stylua: ignore end`) is aligned manually for easier
+-- reading. Consider preserving this or remove `-- stylua` lines to autoformat.
+
 -- General ====================================================================
 vim.g.mapleader = ' ' -- Use `<Space>` as <Leader> key
 
@@ -51,8 +54,8 @@ vim.o.cursorlineopt  = 'screenline,number' -- Show cursor line per screen line
 vim.o.fillchars = 'eob: ,fold:╌'
 vim.o.listchars = 'extends:…,nbsp:␣,precedes:…,tab:> '
 
--- Folds (see `:h Folding`)
-vim.o.foldlevel   = 1        -- Fold everything except top level
+-- Folds (see `:h fold-commands`, `:h zM`, `:h zR`, `:h zA`, `:h zj`)
+vim.o.foldlevel   = 10       -- Fold nothing by default; set to 0 or 1 to fold
 vim.o.foldmethod  = 'indent' -- Fold based on indent level
 vim.o.foldnestmax = 10       -- Limit number of fold levels
 vim.o.foldtext    = ''       -- Show text under fold with its highlighting
@@ -116,4 +119,4 @@ local diagnostic_opts = {
 
 -- Use `later()` to avoid sourcing `vim.diagnostic` on startup
 MiniDeps.later(function() vim.diagnostic.config(diagnostic_opts) end)
---stylua: ignore end
+-- stylua: ignore end

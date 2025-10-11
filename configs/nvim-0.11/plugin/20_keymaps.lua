@@ -6,7 +6,7 @@
 
 -- General mappings ===========================================================
 
--- Use this section to add custom general mappings.  See `:h vim.keymap.set()`.
+-- Use this section to add custom general mappings. See `:h vim.keymap.set()`.
 
 -- An example helper to create Normal mode mapping
 local nmap = function(lhs, rhs, desc)
@@ -22,6 +22,9 @@ nmap(']p', '<Cmd>exe "put "  . v:register<CR>', 'Paste Below')
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
 -- stylua: ignore start
+-- The next part (until `-- stylua: ignore end`) is aligned manually for easier
+-- reading. Consider preserving this or remove `-- stylua` lines to autoformat.
+
 -- Leader mappings ============================================================
 
 -- Neovim has a concept of Leader key (see `:h <Leader>`). It is a configurable
@@ -103,14 +106,15 @@ local explore_quickfix = function()
   vim.cmd('copen')
 end
 
-nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',      'Directory')
-nmap_leader('ef', explore_at_file,                      'File directory')
-nmap_leader('ei', '<Cmd>edit $MYVIMRC<CR>',             'init.lua')
-nmap_leader('ek', edit_plugin_file('20_keymaps.lua'),   'Keymaps config')
-nmap_leader('em', edit_plugin_file('30_mini.lua'),      'MINI config')
-nmap_leader('eo', edit_plugin_file('10_options.lua'),   'Options config')
-nmap_leader('ep', edit_plugin_file('40_plugins.lua'),   'Plugins config')
-nmap_leader('eq', explore_quickfix,                     'Quickfix')
+nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
+nmap_leader('ef', explore_at_file,                          'File directory')
+nmap_leader('ei', '<Cmd>edit $MYVIMRC<CR>',                 'init.lua')
+nmap_leader('ek', edit_plugin_file('20_keymaps.lua'),       'Keymaps config')
+nmap_leader('em', edit_plugin_file('30_mini.lua'),          'MINI config')
+nmap_leader('en', '<Cmd>lua MiniNotify.show_history()<CR>', 'Notifications')
+nmap_leader('eo', edit_plugin_file('10_options.lua'),       'Options config')
+nmap_leader('ep', edit_plugin_file('40_plugins.lua'),       'Plugins config')
+nmap_leader('eq', explore_quickfix,                         'Quickfix')
 
 -- f is for 'Fuzzy Find'. Common usage:
 -- - `<Leader>ff` - find files
@@ -118,6 +122,8 @@ nmap_leader('eq', explore_quickfix,                     'Quickfix')
 -- - `<Leader>fh` - find help tag
 -- - `<Leader>fr` - resume latest picker
 -- - `<Leader>fv` - all visited paths; requires 'mini.visits'
+--
+-- All these use 'mini.pick'. See `:h MiniPick-overview` for an overview.
 local pick_added_hunks_buf = '<Cmd>Pick git_hunks path="%" scope="staged"<CR>'
 
 nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>',            '"/" history')

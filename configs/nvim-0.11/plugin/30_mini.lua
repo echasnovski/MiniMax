@@ -1,41 +1,129 @@
--- The `require('mini.xxx').setup()` is a common convention in 'mini.nvim' to
--- enable a module. See `:h mini.nvim-general-principles` for more principles.
+-- ┌────────────────────┐
+-- │ MINI configuration │
+-- └────────────────────┘
+--
+-- This file contains configuration of MINI parts of the config. Currently
+-- it consists only from 'mini.nvim' plugin (installed in 'init.lua').
+--
+-- 'mini.nvim' is a library of modules. Each is enabled independently via
+-- `require('mini.xxx').setup()` convention. It creates all intended side effects:
+-- mappings, autocommands, highlight groups, etc. It also creates a global
+-- `MiniXxx` table that can be later used to access module's features.
+--
+-- Every module's `setup()` function accepts an optional `config` table to
+-- adjust module's behavior. See its structure at `:h MiniXxx.config`.
+--
+-- See `:h mini.nvim-general-principles` for more general principles.
+--
+-- Here each module's `setup()` has a brief explanation of what the module is for,
+-- its common usage examples, and possible directions for more info.
+
+-- To minimize the time until first screen draw, modules are enabled in two steps:
+-- - Step one enables everything that is needed for first draw with `now()`.
+-- - Everything else is delayed until the first draw with `later()`.
 local now, later = MiniDeps.now, MiniDeps.later
 
 -- Step one ===================================================================
+-- Enable 'miniwinter' color scheme. It comes with 'mini.nvim' and uses 'mini.hues'.
+--
+-- See also:
+-- - `:h mini.nvim-color-schemes` - list of other color schemes
+-- - `:h MiniHues-examples` - how define own highlighting with 'mini.hues'
+-- - 'plugin/40_plugins.lua' honorable mentions - other good color schemes
 now(function() vim.cmd('colorscheme miniwinter') end)
 
+-- You can try these other 'mini.hues' based color schemes (uncomment with `gcc`):
+-- now(function() vim.cmd('colorscheme minispring') end)
+-- now(function() vim.cmd('colorscheme minisummer') end)
+-- now(function() vim.cmd('colorscheme miniautumn') end)
+-- now(function() vim.cmd('colorscheme randomhue') end)
+
+-- Common configuration presets. Common usage:
+-- - `<C-s>` in Insert mode - save and go to Normal mode
+-- - `go` / `gO` - insert empty line before/after in Normal mode
+-- - `\` + key - toggle common options. Like `\h` toggles highlighting serach.
+-- - `<C-hjkl>` (four combos) - navigate between windows.
+-- - `<M-hjkl>` in Insert/Command mode - navigate in that mode.
+--
+-- See also:
+-- - `:h MiniBasics.config.options` - list of adjusted options
+-- - `:h MiniBasics.config.mappings` - list of created mappings
+-- - `:h MiniBasics.config.autocommands` - list of created autocommands
 now(function()
   require('mini.basics').setup({
-    -- Manage options manually in a spirit of transparency
+    -- Manage options in 'plugin/10_options.lua' for didactic purposes
     options = { basic = false },
-    mappings = { windows = true, move_with_alt = true },
-    autocommands = { relnum_in_visual_mode = true },
+    mappings = {
+      -- Create `<C-hjkl>` mappings for window navigation
+      windows = true,
+      -- Create `<M-hjkl>` mappings for navigation in Insert and Command modes
+      move_with_alt = true,
+    },
   })
 end)
 
+-- Icon provider. Usually no need to use manually. It is used by plugins like
+-- 'mini.pick', 'mini.files', 'mini.statusline', and others.
 now(function()
+  -- Set up to not prefer extension-based icon for some extensions
   local ext3_blocklist = { scm = true, txt = true, yml = true }
   local ext4_blocklist = { json = true, yaml = true }
   require('mini.icons').setup({
     use_file_extension = function(ext, _)
-      -- Do not prefer extension-based icon for some extensions
       return not (ext3_blocklist[ext:sub(-3)] or ext4_blocklist[ext:sub(-4)])
     end,
   })
 
+  -- Mock 'nvim-tree/nvim-web-devicons' for plugins without 'mini.icons' support.
+  -- Not needed for 'mini.nvim' or MiniMax, but might be useful for others.
   later(MiniIcons.mock_nvim_web_devicons)
+
+  -- Add LSP kind icons. Useful for 'mini.completion'.
   later(MiniIcons.tweak_lsp_kind)
 end)
 
+-- Notifications provider. Shows all kinds of notifications in the upper right
+-- corner (by default). Common usage:
+-- - `:h vim.notify()` - show notification (hides automatically)
+-- - `<Leader>en` - show notification history
+--
+-- See also:
+-- - `:h MiniNotify.config` for some of common configuration examples.
 now(function() require('mini.notify').setup() end)
 
+-- Session management. A thin wrapper around `:h mksession` that consistently
+-- manages session files. Common usages:
+-- - `<Leader>sn` - start new session
+-- - `<Leader>sr` - read previously started session
+-- - `<Leader>sd` - delete previously started session
 now(function() require('mini.sessions').setup() end)
 
+-- Start screen. This is what is shown when you open Neovim like `nvim`.
+-- Common usage:
+-- - Type prefix keys to limit available candidates
+-- - Navigate down/up with `<C-n>` and `<C-p>`
+-- - Press `<CR>` to select an entry
+--
+-- See also:
+-- - `:h MiniStarter-example-config` - non-default config examples
+-- - `:h MiniStarter-lifecycle` - how to work with Starter buffer
 now(function() require('mini.starter').setup() end)
 
+-- Statusline. Sets `:h 'statusline'` to show more info in a line below window.
+-- Common usage:
+-- - Left most section indicates current mode (text + highlighting).
+-- - Second from left section shows "developer info": Git, diff, diagnostics, LSP.
+-- - Center section shows the name of displayed buffer.
+-- - Second to right section shows more buffer info.
+-- - Right most section shows current cursor coordinates and search results.
+--
+-- See also:
+-- - `:h MiniStatusline-example-content` - example of default content. Use it to
+--   configure custom statusline view by setting `config.content.active` function.
 now(function() require('mini.statusline').setup() end)
 
+-- Tabline. Sets `:h 'tabline'` to show all listed buffers in a line above.
+-- Buffers are ordered as they were created. Navigate with `[b` and `]b`.
 now(function() require('mini.tabline').setup() end)
 
 -- Step two ===================================================================
@@ -62,7 +150,7 @@ later(function() require('mini.bufremove').setup() end)
 
 later(function()
   local miniclue = require('mini.clue')
-  --stylua: ignore
+  -- stylua: ignore
   miniclue.setup({
     clues = {
       Config.leader_group_clues,

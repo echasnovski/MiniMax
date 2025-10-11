@@ -20,7 +20,8 @@
 -- Config files are meant to be read, preferably inside Neovim instance running
 -- this config and opened at its root. This helps better understand your setup.
 -- Start with this file. Any order is possible, prefer the one listed above.
--- Navigate with `<Space>ff` (fuzzy picker) or `<Space>ed` (file explorer).
+-- Open new files with `<Space>ff` (fuzzy picker) or `<Space>ed` (file explorer).
+-- Navigate existing buffers with `[b`, `]b`, or `<Space>fb`.
 --
 -- Config files are also meant to be customized. Initially it is a baseline of
 -- a working config based on MINI. Modify it to make it yours. Some approaches:
@@ -28,7 +29,8 @@
 -- - Add new files in a way that keeps config consistent.
 --   Usually inside 'plugin/' or 'after/'.
 --
--- There are throughout this kind of documentation comments. Common conventions:
+-- There are this kind of documentation comments throughoutt the config.
+-- Common conventions:
 --
 -- - See `:h key-notation` for key notation used.
 -- - `:h xxx` means "documentation of helptag xxx". Either type text directly
