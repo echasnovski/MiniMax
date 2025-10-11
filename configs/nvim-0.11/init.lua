@@ -11,10 +11,11 @@
 -- ├── 20_keymaps.lua  Custom mappings
 -- ├── 30_mini.lua     MINI configuration
 -- ├── 40_plugins.lua  Plugins outside of MINI
--- ├ snippets/         User defined snippets (has demo file).
+-- ├ snippets/         User defined snippets (has demo file)
 -- ├ after/            Files to override behavior added by plugins
--- ├── ftplugin/       Files for filetype behavior (has demo file).
--- ├── snippets/       Higher priority snippet files (has demo file).
+-- ├── ftplugin/       Files for filetype behavior (has demo file)
+-- ├── lsp/            Language server configurations (has demo file)
+-- ├── snippets/       Higher priority snippet files (has demo file)
 --
 -- Config files are meant to be read, preferably inside Neovim instance running
 -- this config and opened at its root. This helps better understand your setup.

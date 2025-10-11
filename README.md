@@ -17,9 +17,9 @@ See [change log](CHANGELOG.md) for a history of changes.
 
 ### What it is not
 
-It is not a "Neovim distribution", i.e. there are no automatic config updates. After setting up config, it is yours to improve and update (which makes this approach more stable). You can still see how MiniMax itself gets updated (see [Update](#update) and [Change log](CHANGELOG.md)) and adjust the config accordingly.
+It is not a "Neovim distribution", i.e. there are no automatic config updates. After your config is set up, it is yours to improve and update (which makes this approach more stable). You can still see how MiniMax itself gets updated (see [Update](#update) and [Change log](CHANGELOG.md)) and adjust the config accordingly.
 
-It is not a comprehensive guide on how to set up and use every Neovim feature and plugin. Most of config parts are carefully chosen in order to reach a balance between stability and features.
+It is not a comprehensive guide on how to set up and use every Neovim feature and plugin. Most of the config parts are carefully chosen in order to reach a balance between stability and features.
 
 ### Requirements
 
@@ -34,15 +34,13 @@ It is not a comprehensive guide on how to set up and use every Neovim feature an
 
 #### Knowledge
 
-Basic level of understanding how to:
+Basic level of understanding of how to:
 
 - Use CLI (command line): open, navigate file system, execute commands, close.
 
-- Use Neovim: open, modal editing, reading help, close. If inside Neovim, type [`:h help.txt`](https://neovim.io/doc/user/helptag.html?tag=help.txt) (or click it if it is a link) followed by `<Enter>` and it should guide you through understanding basics. Couple of personal recommendations (no need to read in full; be aware of their content):
-    - [`:h notation`](https://neovim.io/doc/user/helptag.html?tag=notation)
-    - [`:h key-notation`](https://neovim.io/doc/user/helptag.html?tag=key-notation)
-    - [`:h vim-modes`](https://neovim.io/doc/user/helptag.html?tag=vim-modes) and [`:h mode-switching`](https://neovim.io/doc/user/helptag.html?tag=mode-switching)
-    - [`:h windows-intro`](https://neovim.io/doc/user/helptag.html?tag=windows-intro)
+- Use Neovim: open, modal editing, reading help, close. If inside Neovim, type [`:h help.txt`](https://neovim.io/doc/user/helptag.html?tag=help.txt) (or click it if it is a link) followed by `<Enter>` and it should guide you through understanding basics.
+
+    Several personal recommendations (no need to read in full; be aware of their content): [`:h notation`](https://neovim.io/doc/user/helptag.html?tag=notation), [`:h key-notation`](https://neovim.io/doc/user/helptag.html?tag=key-notation), [`:h vim-modes`](https://neovim.io/doc/user/helptag.html?tag=vim-modes), [`:h mode-switching`](https://neovim.io/doc/user/helptag.html?tag=mode-switching), [`:h windows-intro`](https://neovim.io/doc/user/helptag.html?tag=windows-intro),  [`:h vimtutor`](https://neovim.io/doc/user/helptag.html?tag=vimtutor)
 
 - Read help files from inside Neovim: notion of help tags, key notations, navigation.
 
@@ -57,7 +55,7 @@ Basic level of understanding how to:
 
 ### Setting up
 
-This sets up temporary 'nvim-minimax' config and doesn't affect your regular config. To set up full time config, remove `NVIM_APPNAME=nvim-minimax`.
+This sets up temporary 'nvim-minimax' config and doesn't affect your regular config. To set up a full time config, remove `NVIM_APPNAME=nvim-minimax`.
 
 ```bash
 # Download
@@ -83,9 +81,9 @@ Notes:
 
     A full-time config directory is '\~/.config/nvim' on Unix and '\~/AppData/Local/nvim' on Windows.
 
-- If there are messages about backed up files during setup, it means target config directory already contained files that are meant to come from MiniMax. Previous files were moved to `MiniMax-backup` directory. Review/restore them and delete the whole backup directory.
+- If there are messages about backed up files during setup, it means the target config directory already contained files that are meant to come from MiniMax. Previous files were moved to `MiniMax-backup` directory. Review/restore them and delete the whole backup directory.
 
-- You can explore [MiniMax configs](configs) manually to find which (parts of) config example suit you best. Read through relevant config example (starting at 'init.lua') and use interesting parts in your already existing config.
+- You can explore [MiniMax](configs) manually to find which (parts of) config examples suit you best. Read through the relevant config example (starting at 'init.lua') and use interesting parts in your already existing config.
 
 #### Demo
 
@@ -93,9 +91,9 @@ TODO: Add video demo of first time setting up
 
 ### Updating
 
-MiniMax doesn't provide fully automatic updates of already set up config. The recommended approach is to manually explore [configs](configs) and [change log](CHANGELOG.md) to see the changes.
+MiniMax doesn't provide fully automatic updates of an already set up config. The recommended approach is to manually explore [configs](configs) and [change log](CHANGELOG.md) to see the changes.
 
-The closest approach to automatic update is:
+The closest approach to automatic updating is:
 
 ```bash
 # Pull updates of MiniMax itself

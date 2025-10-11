@@ -69,7 +69,8 @@ end
 
 safely_copy('init.lua')
 safely_copy('plugin') -- Back up whole 'plugin/' directory to avoid config conflicts
-safely_copy('after/ftplugin/text.lua', true) -- Prefer user's existing files
+safely_copy('after/ftplugin/markdown.lua', true) -- Prefer user's existing files
+safely_copy('after/lsp/lua_ls.lua', true)
 safely_copy('after/snippets/lua.json', true)
 safely_copy('snippets/global.json', true)
 

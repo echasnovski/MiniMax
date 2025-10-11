@@ -1,10 +1,10 @@
 ## MiniMax configs
 
-Source for Neovim config examples. Description of available configs:
+Available:
 
 - [`nvim-0.11`](nvim-0.11) - for Neovim>=0.11
 
-Planned configs (after small time of public testing):
+Planned (after small time of 'nvim-0.11' public testing):
 
 - [`nvim-0.9`](nvim-0.9) - for Neovim>=0.9
 - [`nvim-0.10`](nvim-0.10) - for Neovim>=0.10
@@ -26,7 +26,7 @@ Files automatically executed in alphabetical order during startup:
 - `40_plugins.lua` - plugins outside of MINI.
 
 > [!NOTE]
-> Many configurations prefer to use 'lua/' directory with explicit `require()` calls to modularize their config. It is okay to use, but has a drawback that it occupies 'lua' namespace. As it is shared across all plugins, it might lead to conflicts during `require()`. Usually solved by having config files inside a dedicated "user" directory like 'lua/username'.
+> Many configurations prefer to use the 'lua/' directory with explicit `require()` calls to modularize their config. It is okay to use, but has a drawback that it occupies 'lua' namespace. As it is shared across all plugins, it might lead to conflicts during `require()`. Usually solved by having config files inside a dedicated "user" directory like 'lua/username'.
 >
 > The 'plugin/' approach doesn't have this issue. It also doesn't need explicit `require()` calls inside 'init.lua' for files to be executed.
 

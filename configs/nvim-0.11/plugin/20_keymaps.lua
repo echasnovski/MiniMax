@@ -53,6 +53,7 @@ _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>l', desc = '+Language' },
   { mode = 'n', keys = '<Leader>m', desc = '+Map' },
   { mode = 'n', keys = '<Leader>o', desc = '+Other' },
+  { mode = 'n', keys = '<Leader>s', desc = '+Session' },
   { mode = 'n', keys = '<Leader>t', desc = '+Terminal' },
   { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
 
@@ -72,7 +73,7 @@ local xmap_leader = function(suffix, rhs, desc)
   vim.keymap.set('x', '<Leader>' .. suffix, rhs, { desc = desc })
 end
 
--- b is for 'buffer'. Common usage:
+-- b is for 'Buffer'. Common usage:
 -- - `<Leader>bs` - create scratch (temporary) buffer
 -- - `<Leader>ba` - navigate to the alternative buffer
 -- - `<Leader>bw` - wipeout (fully delete) current buffer
@@ -87,7 +88,7 @@ nmap_leader('bs', new_scratch_buffer,                            'Scratch')
 nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>',        'Wipeout')
 nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 
--- e is for 'explore' and 'edit'. Common usage:
+-- e is for 'Explore' and 'edit'. Common usage:
 -- - `<Leader>ed` - open explorer at current working directory
 -- - `<Leader>ef` - open directory of current file (needs to be present on disk)
 -- - `<Leader>ei` and mappings that use `edit_plugin_file` - edit config files
@@ -109,10 +110,9 @@ nmap_leader('ek', edit_plugin_file('20_keymaps.lua'),   'Keymaps config')
 nmap_leader('em', edit_plugin_file('30_mini.lua'),      'MINI config')
 nmap_leader('eo', edit_plugin_file('10_options.lua'),   'Options config')
 nmap_leader('ep', edit_plugin_file('40_plugins.lua'),   'Plugins config')
-nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>', 'Sessions')
 nmap_leader('eq', explore_quickfix,                     'Quickfix')
 
--- f is for 'fuzzy find'. Common usage:
+-- f is for 'Fuzzy Find'. Common usage:
 -- - `<Leader>ff` - find files
 -- - `<Leader>fg` - find inside files; requires `ripgrep`
 -- - `<Leader>fh` - find help tag
@@ -189,7 +189,7 @@ nmap_leader('lt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type definition
 
 xmap_leader('lf', formatting_cmd, 'Format selection')
 
--- m is for 'map'. Common usage:
+-- m is for 'Map'. Common usage:
 -- - `<Leader>mt` - toggle map from 'mini.map' (closed by default)
 -- - `<Leader>mf` - focus on the map for fast navigation
 -- - `<Leader>ms` - change map's side (if it covers something underneath)
@@ -198,17 +198,28 @@ nmap_leader('mr', '<Cmd>lua MiniMap.refresh()<CR>',      'Refresh')
 nmap_leader('ms', '<Cmd>lua MiniMap.toggle_side()<CR>',  'Side (toggle)')
 nmap_leader('mt', '<Cmd>lua MiniMap.toggle()<CR>',       'Toggle')
 
--- o is for 'other'. Common usage:
--- - `<Leader>oz` - toggle between "zoomed" and regular view of current buffer.
+-- o is for 'Other'. Common usage:
+-- - `<Leader>oz` - toggle between "zoomed" and regular view of current buffer
 nmap_leader('or', '<Cmd>lua MiniMisc.resize_window()<CR>', 'Resize to default width')
 nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>',    'Trim trailspace')
 nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',          'Zoom toggle')
 
--- t is for 'terminal'
+-- s is for 'Session'. Common usage:
+-- - `<Leader>sn` - start new session
+-- - `<Leader>sr` - read previously started session
+-- - `<Leader>sd` - delete previously started session
+local session_new = 'MiniSessions.write(vim.fn.input("Session name: "))'
+
+nmap_leader('sd', '<Cmd>lua MiniSessions.select("delete")<CR>', 'Delete')
+nmap_leader('sn', '<Cmd>lua ' .. session_new .. '<CR>',         'New')
+nmap_leader('sr', '<Cmd>lua MiniSessions.select("read")<CR>',   'Read')
+nmap_leader('sw', '<Cmd>lua MiniSessions.write()<CR>',          'Write current')
+
+-- t is for 'Terminal'
 nmap_leader('tT', '<Cmd>horizontal term<CR>', 'Terminal (horizontal)')
 nmap_leader('tt', '<Cmd>vertical term<CR>',   'Terminal (vertical)')
 
--- v is for 'visits'. Common usage:
+-- v is for 'Visits'. Common usage:
 -- - `<Leader>vv` - add    "core" label to current file.
 -- - `<Leader>vV` - remove "core" label to current file.
 -- - `<Leader>vc` - pick among all files with "core" label.
