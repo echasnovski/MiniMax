@@ -91,10 +91,10 @@ now_if_args(function()
   -- Use `:h vim.lsp.enable()` to automatically enable language server based on
   -- the rules provided by 'nvim-lspconfig'.
   -- Use `:h vim.lsp.config()` or 'ftplugin/lsp/' directory to configure servers.
-  local servers = {
-    -- Nothing is used as example, as there is no guarantee of installed server
-  }
-  vim.lsp.enable(servers)
+  -- vim.lsp.enable({
+  --   -- Nothing is used as example, as there is no guarantee of installed server
+  --   -- For example, if `lua-language-server` is installed, use `'lua_ls'` entry
+  -- })
 end)
 
 -- Formatting =================================================================

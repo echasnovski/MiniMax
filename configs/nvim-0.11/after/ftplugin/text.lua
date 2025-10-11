@@ -1,1 +1,0 @@
-vim.wo.spell = true

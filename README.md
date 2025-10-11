@@ -4,41 +4,33 @@ THIS IS A WORK IN PROGRESS! BEFORE IT IS MOVED TO NVIM-MINI ORG, PLEASE DO NOT U
 
 ## Neovim with maximum MINI
 
-MiniMax is a collection of Neovim config examples. All of them:
+MiniMax is a collection of fully working self-contained Neovim configs. All of the them:
 
-- Use mostly MINI.
+- Use mostly MINI to showcase its capabilities.
 - Provide out of the box stable, polished, and feature rich Neovim experience.
 - Share minimal structure with potential to build upon.
 - Contain extensively commented config files meant to be read.
 
-Browse available configs [here](configs). The most appropriate one will be automatically chosen during [full setup](#full).
+It can be automatically [set up](#setting-up), which uses the best suited config from [available ones](configs).
 
 See [change log](CHANGELOG.md) for a history of changes.
 
 ### What it is not
 
-- A "Neovim distribution", i.e. there is no automatic config updates. After setting up config, it is yours to improve and update (which makes this approach more stable).
+It is not a "Neovim distribution", i.e. there are no automatic config updates. After setting up config, it is yours to improve and update (which makes this approach more stable). You can still see how MiniMax itself gets updated (see [Update](#update) and [Change log](CHANGELOG.md)) and adjust the config accordingly.
 
-    You can still see how MiniMax itself gets updated (see [Update](#update) and [Change log](CHANGELOG.md)) and adjust the config accordingly.
-
-- A comprehensive guide on how to set up and use every Neovim feature and plugin. The goals of the project are:
-
-    - Provide an entry point for users to start using Neovim.
-    - Serve as a demo of MINI capabilities.
+It is not a comprehensive guide on how to set up and use every Neovim feature and plugin. Most of config parts are carefully chosen in order to reach a balance between stability and features.
 
 ### Requirements
 
 #### Software
 
-- Mandatory:
-    - [Neovim](https://neovim.io/) executable. Will be referred here as `nvim`.
-    - [Git](https://git-scm.com/). Will be referred here as `git`.
-    - Operating system: any OS supported by Neovim.
-    - Internet connection for downloading plugins.
-
-- Optional (but recommended):
-    - [`ripgrep`](https://github.com/BurntSushi/ripgrep#installation).
-    - Terminal emulator or GUI with true colors and [Nerd Font icons](https://www.nerdfonts.com/) support. No need for full Nerd font, using `Symbols Only` nerd font as a fallback is usually enough.
+- [Neovim](https://neovim.io/) executable. Assumed to be named `nvim`.
+- [Git](https://git-scm.com/) executable. Assumed to be named `git`.
+- Operating system: any OS supported by Neovim.
+- Internet connection for downloading plugins.
+- (Optional, but recommended) [`ripgrep`](https://github.com/BurntSushi/ripgrep#installation).
+- (Optional, but recommended) Terminal emulator or GUI with true colors and [Nerd Font icons](https://www.nerdfonts.com/) support. No need for full Nerd font, using `Symbols Only` nerd font as a fallback is usually enough.
 
 #### Knowledge
 
@@ -46,7 +38,7 @@ Basic level of understanding how to:
 
 - Use CLI (command line): open, navigate file system, execute commands, close.
 
-- Use Neovim: open, modal editing, reading help, close. If inside Neovim, type [`:h help.txt`](https://neovim.io/doc/user/helptag.html?tag=help.txt) (or click it if it is a link) followed by `<Enter>` and it should guide you through understanding basics. Couple of personal recommendations (no ned to read in full; be aware of their content):
+- Use Neovim: open, modal editing, reading help, close. If inside Neovim, type [`:h help.txt`](https://neovim.io/doc/user/helptag.html?tag=help.txt) (or click it if it is a link) followed by `<Enter>` and it should guide you through understanding basics. Couple of personal recommendations (no need to read in full; be aware of their content):
     - [`:h notation`](https://neovim.io/doc/user/helptag.html?tag=notation)
     - [`:h key-notation`](https://neovim.io/doc/user/helptag.html?tag=key-notation)
     - [`:h vim-modes`](https://neovim.io/doc/user/helptag.html?tag=vim-modes) and [`:h mode-switching`](https://neovim.io/doc/user/helptag.html?tag=mode-switching)
@@ -61,85 +53,67 @@ Basic level of understanding how to:
 
 #### Personality
 
-- Readiness to read documentation. At the beginning it might feel like a lot of reading. It gets easier the more you learn and practice.
-
-    Without this you likely won't enjoy Neovim and MiniMax as much.
+- Readiness to read documentation. At the beginning it might feel like a lot of reading. It gets easier the more you learn and practice. Without this you likely won't enjoy Neovim and MiniMax as much.
 
 ### Setting up
 
-#### Full
+This sets up temporary 'nvim-minimax' config and doesn't affect your regular config. To set up full time config, remove `NVIM_APPNAME=nvim-minimax`.
 
-- Download this project (here `./MiniMax` is used as a target path, i.e. download inside current directory as 'MiniMax'; can be other path):
+```bash
+# Download
+git clone --filter=blob:none https://github.com/nvim-mini/MiniMax ./MiniMax
 
-    - Via `git clone`. For example:
+# Set up config (copies config files and possibly initiates Git repository)
+NVIM_APPNAME=nvim-minimax nvim -l ./MiniMax/setup.lua
 
-        ```bash
-        git clone --filter=blob:none https://github.com/nvim-mini/MiniMax ./MiniMax
-        ```
+# Start Neovim
+NVIM_APPNAME=nvim-minimax nvim
 
-    - Manually via GitHub UI.
+# Wait for plugins to install
 
-- Run 'setup.lua' script (copies config files and possibly initiates Git repository):
+# Enjoy your new config!
+# Start with reading its files (type `<Space>` + `e` + `i`)
+```
 
-    - For a full-time use. Sets up regular user's config directory. On Linux this sets up '~/.config/nvim'.
+Notes:
 
-        ```bash
-        nvim -l ./MiniMax/setup.lua
-        ```
+- MiniMax project can be downloaded manually (like via GitHub UI).
 
+- With `NVIM_APPNAME=nvim-minimax` config directory is '\~/.config/nvim-minimax' on Unix and '\~/AppData/Local/nvim-minimax' on Windows.
 
-    - For a demo use. Doesn't affect your regular config as it uses a dedicated config directory. On Linux this sets up '~/.config/nvim-minimax'. See `:h $NVIM_APPNAME`.
+    A full-time config directory is '\~/.config/nvim' on Unix and '\~/AppData/Local/nvim' on Windows.
 
-        ```bash
-        NVIM_APPNAME=nvim-minimax nvim -l ./MiniMax/setup.lua
-        ```
+- If there are messages about backed up files during setup, it means target config directory already contained files that are meant to come from MiniMax. Previous files were moved to `MiniMax-backup` directory. Review/restore them and delete the whole backup directory.
 
-  > [!NOTE]
-  > If there are messages about backed up files during setup, it means target config directory already contained files that are meant to come from MiniMax. Previous files were moved to `MiniMax-backup` directory. Review/restore them and delete the whole backup directory.
+- You can explore [MiniMax configs](configs) manually to find which (parts of) config example suit you best. Read through relevant config example (starting at 'init.lua') and use interesting parts in your already existing config.
 
-- Start `nvim`:
+#### Demo
 
-    - After a full-time use config setup:
-
-        ```bash
-        nvim
-        ```
-
-    - After a demo use config setup. Start Neovim using `nvim-minimax` as config directory. Always set `NVIM_APPNAME` to use MiniMax installed this way.
-
-        ```bash
-        NVIM_APPNAME=nvim-minimax nvim
-        ```
-
-- Wait for all plugins to install (there should be no new notifications appearing).
-
-- Read files of your new config. Start with 'init.lua' by typing `<Space>` + `e` + `i`.
-
-- Enjoy!
-
-#### Partial
-
-- Explore [MiniMax configs](configs) to find which config example suits you best. Requires knowing your current Neovim version.
-
-- Read through relevant config example (starting at 'init.lua') and use interesting parts in your already existing config.
+TODO: Add video demo of first time setting up
 
 ### Updating
 
-MiniMax doesn't provide fully automatic updates of already set up config. The recommended approach is to follow the [partial setup](#partial) path.
+MiniMax doesn't provide fully automatic updates of already set up config. The recommended approach is to manually explore [configs](configs) and [change log](CHANGELOG.md) to see the changes.
 
 The closest approach to automatic update is:
 
-- Download updates of MiniMax. Depending on how it itself is downloaded:
+```bash
+# Pull updates of MiniMax itself
+git -C ./MiniMax pull
 
-    - Run `git -C ./MiniMax pull` if you downloaded via `git clone`. Replace `./MiniMax` with the path to where you downloaded MiniMax.
+# Run setup script again. Remove `NVIM_APPNAME=nvim-minimax` for full-time config
+NVIM_APPNAME=nvim-minimax nvim -l ./MiniMax/setup.lua
 
-    - Download the latest code manually via GitHub UI.
-
-- Run 'setup.lua' script as was done during [full setup](#full). It will probably show messages about backed up files. Examine 'MiniMax-backup' directory that contains all conflicting files; recover the ones you need; delete the backup directory.
+# There probably be messages about backed up files:
+# 1. Examine 'MiniMax-backup' directory with conflicting files.
+# 2. Recover the ones you need.
+# 3. Delete the backup directory.
+```
 
 ### Similar projects
 
 - [nvim-lua/kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
+
 - More automated approaches ("Neovim distributions"):
     - [LazyVim/LazyVim](https://github.com/LazyVim/LazyVim)
     - [NvChad/NvChad](https://github.com/NvChad/NvChad)
