@@ -8,7 +8,7 @@
 
 -- Use this section to add custom general mappings. See `:h vim.keymap.set()`.
 
--- An example helper to create Normal mode mapping
+-- An example helper to create a Normal mode mapping
 local nmap = function(lhs, rhs, desc)
   -- See `:h vim.keymap.set()`
   vim.keymap.set('n', lhs, rhs, { desc = desc })
@@ -27,9 +27,10 @@ nmap(']p', '<Cmd>exe "put "  . v:register<CR>', 'Paste Below')
 
 -- Leader mappings ============================================================
 
--- Neovim has a concept of Leader key (see `:h <Leader>`). It is a configurable
--- key that is primarily used for "workflow" mappings (opposed to text editing).
--- Like "open file explorer", "create scratch buffer", "pick from buffers".
+-- Neovim has the concept of a Leader key (see `:h <Leader>`). It is
+-- a configurable key that is primarily used for "workflow" mappings (opposed to
+-- text editing). Like "open file explorer", "create scratch buffer", "pick from
+-- buffers".
 --
 -- In 'plugin/10_options.lua' <Leader> is set to <Space>, i.e. press <Space>
 -- whenever there is a suggestion to press <Leader>.
@@ -46,8 +47,9 @@ nmap(']p', '<Cmd>exe "put "  . v:register<CR>', 'Paste Below')
 --
 -- Many of the mappings use 'mini.nvim' modules set up in 'plugin/30_mini.lua'.
 
--- Create global table with information about Leader groups in certain modes.
--- This is used for 'mini.clue' extra clues. Add entry if you create new group.
+-- Create a global table with information about Leader groups in certain modes.
+-- This is used to provide 'mini.clue' with extra clues. Add an entry if you
+-- create a new group.
 _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
   { mode = 'n', keys = '<Leader>e', desc = '+Explore/Edit' },
@@ -67,8 +69,8 @@ _G.Config.leader_group_clues = {
 -- Helpers for a more concise `<Leader>` mappings.
 -- Most of the mappings use `<Cmd>...<CR>` string as a right hand side (RHS) in
 -- an attempt to be more concise yet descriptive. See `:h <Cmd>`.
--- This approach also doesn't require underlying commands/functions exist during
--- mapping creation: a "lazy loading" approach that improves startup time.
+-- This approach also doesn't require the underlying commands/functions to exist
+-- during mapping creation: a "lazy loading" approach to improve startup time.
 local nmap_leader = function(suffix, rhs, desc)
   vim.keymap.set('n', '<Leader>' .. suffix, rhs, { desc = desc })
 end
@@ -91,7 +93,7 @@ nmap_leader('bs', new_scratch_buffer,                            'Scratch')
 nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>',        'Wipeout')
 nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 
--- e is for 'Explore' and 'edit'. Common usage:
+-- e is for 'Explore' and 'Edit'. Common usage:
 -- - `<Leader>ed` - open explorer at current working directory
 -- - `<Leader>ef` - open directory of current file (needs to be present on disk)
 -- - `<Leader>ei` and mappings that use `edit_plugin_file` - edit config files
@@ -152,7 +154,7 @@ nmap_leader('fS', '<Cmd>Pick lsp scope="document_symbol"<CR>',  'Symbols documen
 nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',           'Visit paths (all)')
 nmap_leader('fV', '<Cmd>Pick visit_paths<CR>',                  'Visit paths (cwd)')
 
--- g is for Git. Common usage:
+-- g is for 'Git'. Common usage:
 -- - `<Leader>gs` - show information at cursor
 -- - `<Leader>go` - toggle 'mini.diff' overlay to show in-buffer unstaged changes
 -- - `<Leader>gd` - show unstaged changes as a patch in separate tabpage
@@ -173,12 +175,12 @@ nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',  'Show at cursor')
 
 xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')
 
--- l is for Language. Common usage:
+-- l is for 'Language'. Common usage:
 -- - `<Leader>ld` - show more diagnostic details in a floating window
 -- - `<Leader>lr` - perform rename via LSP
 -- - `<Leader>ls` - navigate to source definition of symbol under cursor
 --
--- NOTE: most of LSP mappings represent a more structured way replacing built-in
+-- NOTE: most LSP mappings represent a more structured way of replacing built-in
 -- LSP mappings (like `:h gra` and others). This is needed because `gr` is mapped
 -- by an "replace" operator in 'mini.operators' (which is more commonly used).
 local formatting_cmd = '<Cmd>lua require("conform").format({lsp_fallback=true})<CR>'

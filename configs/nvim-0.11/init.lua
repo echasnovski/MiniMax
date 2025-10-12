@@ -2,7 +2,7 @@
 -- │ Welcome to MiniMax │
 -- └────────────────────┘
 --
--- This is a config designed to mostly use MINI. It provides out of the box
+-- This is a config designed to mostly use MINI. It provides an out of the box,
 -- stable, polished, and feature rich Neovim experience. Its structure:
 --
 -- ├ init.lua          Initial (this) file executed during startup
@@ -17,10 +17,10 @@
 -- ├── lsp/            Language server configurations (has demo file)
 -- ├── snippets/       Higher priority snippet files (has demo file)
 --
--- Config files are meant to be read, preferably inside Neovim instance running
--- this config and opened at its root. This helps better understand your setup.
--- Start with this file. Any order is possible, prefer the one listed above.
--- Way of navigating your config:
+-- Config files are meant to be read, preferably inside a Neovim instance
+-- running this config and opened at its root. This will help you better
+-- understand your setup. Start with this file. Any order is possible, prefer
+-- the one listed above. Way of navigating your config:
 -- - `<Space>` + `e` + (one of) `iokmp` - edit 'init.lua' or 'plugin/' files.
 -- - Inside config directory: `<Space>ff` (picker) or `<Space>ed` (explorer)
 -- - Navigate existing buffers with `[b`, `]b`, or `<Space>fb`.
@@ -31,7 +31,7 @@
 -- - Add new files in a way that keeps config consistent.
 --   Usually inside 'plugin/' or 'after/'.
 --
--- There are this kind of documentation comments throughoutt the config.
+-- There are this kind of documentation comments throughout the config.
 -- Common conventions:
 --
 -- - See `:h key-notation` for key notation used.
@@ -53,18 +53,21 @@ if not vim.loop.fs_stat(mini_path) then
   vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
 
--- mini.deps - Plugin manager. Set up immediately for `now()`/`later()` helpers.
--- See `:h MiniDeps-overview` about how to use it.
--- See 'plugin/30_mini.lua' for more details about 'mini.nvim' in general.
+-- Plugin manager. Set up immediately for `now()`/`later()` helpers.
+--
+-- See also:
+-- - `:h MiniDeps-overview` - how to use it
+-- - 'plugin/30_mini.lua' - more details about 'mini.nvim' in general
 require('mini.deps').setup()
 
 -- Define config table to be able to pass data between scripts
 _G.Config = {}
 
+-- Define custom autocommand group and helper to create an autocommand.
 -- Autocommands are Neovim's way to define actions that are executed on events
 -- (like creating a buffer, setting an option, etc.).
--- Define custom autocommand group and helper to create an autocommand
--- Sources:
+--
+-- See also:
 -- - `:h autocommand`
 -- - `:h nvim_create_augroup()`
 -- - `:h nvim_create_autocmd()`

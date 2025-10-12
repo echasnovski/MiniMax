@@ -2,16 +2,16 @@
 -- │ MINI configuration │
 -- └────────────────────┘
 --
--- This file contains configuration of MINI parts of the config. Currently
--- it consists only from 'mini.nvim' plugin (installed in 'init.lua').
+-- This file contains configuration of the MINI parts of the config. It contains
+-- only configs for the 'mini.nvim' plugin (installed in 'init.lua').
 --
 -- 'mini.nvim' is a library of modules. Each is enabled independently via
--- `require('mini.xxx').setup()` convention. It creates all intended side effects:
--- mappings, autocommands, highlight groups, etc. It also creates a global
--- `MiniXxx` table that can be later used to access module's features.
+-- `require('mini.xxx').setup()` convention. This creates all intended side
+-- effects: mappings, autocommands, highlight groups, etc. It also creates
+-- a global `MiniXxx` table that can be later used to access module's features.
 --
 -- Every module's `setup()` function accepts an optional `config` table to
--- adjust module's behavior. See its structure at `:h MiniXxx.config`.
+-- adjust its behavior. See the definition of this table at `:h MiniXxx.config`.
 --
 -- See `:h mini.nvim-general-principles` for more general principles.
 --
@@ -29,11 +29,11 @@ local now, later = MiniDeps.now, MiniDeps.later
 --
 -- See also:
 -- - `:h mini.nvim-color-schemes` - list of other color schemes
--- - `:h MiniHues-examples` - how define own highlighting with 'mini.hues'
+-- - `:h MiniHues-examples` - how to define highlighting with 'mini.hues'
 -- - 'plugin/40_plugins.lua' honorable mentions - other good color schemes
 now(function() vim.cmd('colorscheme miniwinter') end)
 
--- You can try these other 'mini.hues' based color schemes (uncomment with `gcc`):
+-- You can try these other 'mini.hues'-based color schemes (uncomment with `gcc`):
 -- now(function() vim.cmd('colorscheme minispring') end)
 -- now(function() vim.cmd('colorscheme minisummer') end)
 -- now(function() vim.cmd('colorscheme miniautumn') end)
@@ -42,9 +42,10 @@ now(function() vim.cmd('colorscheme miniwinter') end)
 -- Common configuration presets. Common usage:
 -- - `<C-s>` in Insert mode - save and go to Normal mode
 -- - `go` / `gO` - insert empty line before/after in Normal mode
--- - `\` + key - toggle common options. Like `\h` toggles highlighting serach.
+-- - `\` + key - toggle common options. I.e., `\h` toggles highlighting search.
 -- - `<C-hjkl>` (four combos) - navigate between windows.
 -- - `<M-hjkl>` in Insert/Command mode - navigate in that mode.
+-- - `<M-hjkl>` in Normal mode - move line/selection in that direction.
 --
 -- See also:
 -- - `:h MiniBasics.config.options` - list of adjusted options
@@ -120,7 +121,7 @@ now(function() require('mini.starter').setup() end)
 --
 -- See also:
 -- - `:h MiniStatusline-example-content` - example of default content. Use it to
---   configure custom statusline view by setting `config.content.active` function.
+--   configure a custom statusline by setting `config.content.active` function.
 now(function() require('mini.statusline').setup() end)
 
 -- Tabline. Sets `:h 'tabline'` to show all listed buffers in a line above.
@@ -169,8 +170,8 @@ later(function()
 
     -- 'mini.ai' by default mostly mimics built-in search behavior: first try
     -- to find textobject covering cursor, then try to find to the right.
-    -- Although works in most cases, some are confusing. It is more robust to
-    -- always try to search only covering textobject and explicitly ask to
+    -- Although this works in most cases, some are confusing. It is more robust
+    -- to always try to search only covering textobject and explicitly ask to
     -- search for next (`an`/`in`) or last (`an`/`il`).
     -- Try this. If you don't like it - delete next line and this comment.
     search_method = 'cover',
@@ -191,7 +192,7 @@ later(function() require('mini.align').setup() end)
 
 -- Animate common Neovim actions. Like cursor movement, scroll, window resize,
 -- window open, window close. Animations are done based on Neovim events and
--- don't require custom mappings
+-- don't require custom mappings.
 --
 -- It is not enabled by default because its effects are a matter of taste.
 -- Also scroll and resize have some unwanted side effects (see `:h MiniAnimate`).
@@ -218,7 +219,7 @@ later(function() require('mini.bracketed').setup() end)
 later(function() require('mini.bufremove').setup() end)
 
 -- Show next key clues in a bottom right window. Requires explicit opt-in for
--- which keys act as clue trigger. Common usage:
+-- which keys to act as clue trigger. Common usage:
 -- - Press `<Leader>` and wait for 1 second. A window with information about
 --   next available keys should appear.
 -- - Press one of the listed keys. Window updates immediately to show information
@@ -246,7 +247,7 @@ later(function()
       miniclue.gen_clues.g(),
       miniclue.gen_clues.marks(),
       miniclue.gen_clues.registers(),
-      -- This creates submode for window resize mappings. Try the following:
+      -- This creates a submode for window resize mappings. Try the following:
       -- - Press `<C-w>s` to make a window split.
       -- - Press `<C-w>+` to increase height. Clue window still shows clues as if
       --   `<C-w>` is pressed again. Keep pressing just `+` to increase height.
@@ -299,20 +300,20 @@ later(function() require('mini.comment').setup() end)
 --
 -- Common usage in Insert mode with attached LSP:
 -- - Start typing text that should be recognized by LSP (like variable name).
--- - After 100ms popup menu with candidates appears.
+-- - After 100ms a popup menu with candidates appears.
 -- - Press `<Tab>` / `<S-Tab>` to navigate down/up the list. These are set up
 --   in 'mini.keymap'. You can also use `<C-n>` / `<C-p>`.
--- - During navigation there is an infor window to the right showing extra info
---   LSP server can provide about the candidate. It appears after the candidate
---   stays selected for 100ms. Use `<C-f>` / `<C-b>` to scroll it.
+-- - During navigation there is an info window to the right showing extra info
+--   that the LSP server can provide about the candidate. It appears after the
+--   candidate stays selected for 100ms. Use `<C-f>` / `<C-b>` to scroll it.
 -- - Navigating to an entry also changes buffer text. If you are happy with it,
 --   keep typing after it. To discard completion completely, press `<C-e>`.
 -- - After pressing special trigger(s), usually `(`, a window appears that shows
---   signature of the current function/method. It gets updated as you type showing
---   currently active parameter.
+--   the signature of the current function/method. It gets updated as you type
+--   showing the currently active parameter.
 --
--- Common usage in Insert mode without attached LSP or in palces not supported
--- by LSP (like comments)::
+-- Common usage in Insert mode without an attached LSP or in places not
+-- supported by the LSP (like comments):
 -- - Start typing a word that is present in current of opened buffers.
 -- - After 100ms popup menu with candidates appears.
 -- - Navigate with `<Tab>` / `<S-Tab>` or `<C-n>` / `<C-p>`. This also updates
@@ -321,7 +322,7 @@ later(function() require('mini.comment').setup() end)
 -- It also works with snippet candidates provided by LSP server. Based experience
 -- when paired with 'mini.snippets' (which is set up in this file).
 later(function()
-  -- Customize post-porcessing of LSP responses for a better user experience.
+  -- Customize post-processing of LSP responses for a better user experience.
   -- Don't show 'Text' suggestions (usually noisy) and show snippets last.
   local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
   local process_items = function(items, base)
@@ -344,12 +345,12 @@ later(function()
   end
   _G.Config.new_autocmd('LspAttach', nil, on_attach, "Set 'omnifunc'")
 
-  -- Advertize to servers that Neovim now supports certain set of completion and
+  -- Advertise to servers that Neovim now supports certain set of completion and
   -- signature features through 'mini.completion'.
   vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
 end)
 
--- Autohighlight word under cursor with customizable delay.
+-- Auto highlight the word under the cursor with a customizable delay.
 -- Word boundaries are defined based on `:h 'iskeyword'` option.
 --
 -- It is not enabled by default because its effects are a matter of taste.

@@ -81,7 +81,7 @@ end)
 -- be installed separately based on your OS, CLI tools, and preferences.
 -- See note about 'mason.nvim' at the bottom of the file.
 --
--- Neovim's' team collects commonly used configurations for most language servers
+-- Neovim's team collects commonly used configurations for most language servers
 -- inside 'neovim/nvim-lspconfig' plugin.
 --
 -- Add it now if file (and not 'mini.starter') is shown after startup.
