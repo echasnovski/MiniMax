@@ -52,8 +52,8 @@ Basic level of understanding of how to:
 
 - Read help files from inside Neovim: notion of help tags, key notations, navigation.
 
-  > [!TIP]
-  > If already inside MiniMax config, press `<Space>` + `f` + `h` to fuzzy search across all help tags.
+> [!TIP]
+> If already inside MiniMax config, press `<Space>` + `f` + `h` to fuzzy search across all help tags.
 
 - Read [Lua language](https://learnxinyminutes.com/lua/): variables, tables, function calls, iterations. See also [`:h lua-concepts`](https://neovim.io/doc/user/helptag.html?tag=lua-concepts) and [`:h lua-guide`](https://neovim.io/doc/user/helptag.html?tag=lua-guide).
 
