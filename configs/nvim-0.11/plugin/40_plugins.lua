@@ -152,10 +152,11 @@ later(function() add('rafamadriz/friendly-snippets') end)
 -- enabled in 'plugin/30_mini.lua' or other suggested 'mini.hues' based ones.
 -- now(function()
 --   -- Install only those that you need
+--   add('catppuccin/nvim')
 --   add('sainnhe/everforest')
 --   add('Shatur/neovim-ayu')
 --   add('ellisonleao/gruvbox.nvim')
 --
 --   -- Enable only one
---   vim.cmd('color everforest')
+--   vim.cmd('color catppuccin')
 -- end)
