@@ -103,7 +103,7 @@ end
 local explore_at_file = '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>'
 local explore_quickfix = function()
   for _, win_id in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if vim.fn.getwininfo(win_id).quickfix == 1 then return vim.cmd('cclose') end
+    if vim.fn.getwininfo(win_id)[1].quickfix == 1 then return vim.cmd('cclose') end
   end
   vim.cmd('copen')
 end
