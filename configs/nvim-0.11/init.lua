@@ -81,3 +81,7 @@ _G.Config.new_autocmd = function(event, pattern, callback, desc)
   local opts = { group = gr, pattern = pattern, callback = callback, desc = desc }
   vim.api.nvim_create_autocmd(event, opts)
 end
+
+-- Some plugins only and 'mini.nvim' modules need setup during startup if Neovim
+-- is started like `nvim -- path/to/file`, otherwise delaying startup is fine
+_G.Config.now_if_args = vim.fn.argc(-1) > 0 and MiniDeps.now or MiniDeps.later
