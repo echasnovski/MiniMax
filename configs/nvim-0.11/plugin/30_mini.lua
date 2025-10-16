@@ -22,8 +22,10 @@
 
 -- To minimize the time until first screen draw, modules are enabled in two steps:
 -- - Step one enables everything that is needed for first draw with `now()`.
+--   Sometimes is needed only if Neovim is started as `nvim -- path/to/file`.
 -- - Everything else is delayed until the first draw with `later()`.
 local now, later = MiniDeps.now, MiniDeps.later
+local now_if_args = _G.Config.now_if_args
 
 -- Step one ===================================================================
 -- Enable 'miniwinter' color scheme. It comes with 'mini.nvim' and uses 'mini.hues'.
@@ -83,6 +85,33 @@ now(function()
 
   -- Add LSP kind icons. Useful for 'mini.completion'.
   later(MiniIcons.tweak_lsp_kind)
+end)
+
+-- Miscellaneous small but useful functions. Example usage:
+-- - `<Leader>oz` - toggle between "zoomed" and regular view of current buffer
+-- - `<Leader>or` - resize window to its "editable width"
+-- - `:lua put_text(vim.lsp.get_clients())` - put output of a function below
+--   cursor in current buffer. Useful for a detailed exploration.
+-- - `:lua put(MiniMisc.stat_summary(MiniMisc.bench_time(f, 100)))` - run
+--   function `f` 100 times and report statistical summary of execution times
+--
+-- Uses `now()` for `setup_xxx()` to work when started like `nvim -- path/to/file`
+now_if_args(function()
+  -- Makes `:h MiniMisc.put()` and `:h MiniMisc.put_text()` public
+  require('mini.misc').setup()
+
+  -- Change current working directory based on the current file path. It
+  -- searches up the file tree until the first root marker ('.git' or 'Makefile')
+  -- and sets their parent directory as a current directory.
+  -- This is helpful when simultaneously dealing with files from several projects.
+  MiniMisc.setup_auto_root()
+
+  -- Restore latest cursor position on file open
+  MiniMisc.setup_restore_cursor()
+
+  -- Synchronize terminal emulator background with Neovim's background to remove
+  -- possibly different color padding around Neovim instance
+  MiniMisc.setup_termbg_sync()
 end)
 
 -- Notifications provider. Shows all kinds of notifications in the upper right
@@ -557,31 +586,6 @@ later(function()
       .. '<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>'
     vim.keymap.set('n', key, rhs)
   end
-end)
-
--- Miscellaneous small but useful functions. Example usage:
--- - `<Leader>oz` - toggle between "zoomed" and regular view of current buffer
--- - `<Leader>or` - resize window to its "editable width"
--- - `:lua put_text(vim.lsp.get_clients())` - put output of a function below
---   cursor in current buffer. Useful for a detailed exploration.
--- - `:lua put(MiniMisc.stat_summary(MiniMisc.bench_time(f, 100)))` - run
---   function `f` 100 times and report statistical summary of execution times
-later(function()
-  -- Makes `:h MiniMisc.put()` and `:h MiniMisc.put_text()` public
-  require('mini.misc').setup()
-
-  -- Change current working directory based on the current file path. It
-  -- searches up the file tree until the first root marker ('.git' or 'Makefile')
-  -- and sets their parent directory as a current directory.
-  -- This is helpful when simultaneously dealing with files from several projects.
-  MiniMisc.setup_auto_root()
-
-  -- Restore latest cursor position on file open
-  MiniMisc.setup_restore_cursor()
-
-  -- Synchronize terminal emulator background with Neovim's background to remove
-  -- possibly different color padding around Neovim instance
-  MiniMisc.setup_termbg_sync()
 end)
 
 -- Move any selection in any direction. Example usage in Normal mode:
