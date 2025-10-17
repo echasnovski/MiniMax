@@ -9,7 +9,7 @@
 -- Use this file to install and configure other such plugins.
 
 -- Make concise helpers for installing/adding plugins in two stages
-local add, later = MiniDeps.add, MiniDeps.later
+local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 local now_if_args = _G.Config.now_if_args
 
 -- Tree-sitter ================================================================
